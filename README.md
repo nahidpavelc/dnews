@@ -1,4 +1,4 @@
-# D-News-Portal Admin Panel using Codeigniter Framework
+# DNews-Portal Admin Panel using Codeigniter Framework
 
 ## Programming Languages
 ### PHP, HTML & CSS, JavaScript
