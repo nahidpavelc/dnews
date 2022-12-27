@@ -219,7 +219,7 @@
               </span>
             </a>
           </li>
-
+          <?php if ($_SESSION['userType'] === 'user') : ?>
           <!------- user Photo Album Photo gallery ------>
           <li class="treeview <?php if ($activeMenu === "photo_album" || $activeMenu === "photo_gallery_add" || $activeMenu === "photo_gallery_list" || $activeMenu === "photo_gallery_edit") echo "active"; ?> ">
             <a href="#">
@@ -249,8 +249,9 @@
               </li>
             </ul>
           </li>
+           
 
-          <?php if ($_SESSION['userType'] === 'admin') : ?>
+          <?php elseif ($_SESSION['userType'] === 'admin') : ?>
 
             <li class="treeview <?php if ($activeMenu === "user_list" || $activeMenu === "add_user" || $activeMenu === "user_edit") echo "active"; ?> ">
               <a href="#">

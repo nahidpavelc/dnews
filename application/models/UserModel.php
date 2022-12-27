@@ -196,12 +196,15 @@ class UserModel extends CI_Model
   {
     $results = array();
 
-    $this->db->select('tbl_photo_gallery.id,tbl_photo_gallery.photo_file,tbl_photo_gallery.title,tbl_photo_album.album_title as album_name');
-    $this->db->join('tbl_photo_album', 'tbl_photo_album.id  = tbl_photo_gallery.photo_album_id', 'left');
+    $this->db->select('tbl_photo_gallery.id, tbl_photo_gallery.photo_file, tbl_photo_gallery.title, tbl_photo_gallery.insert_by, tbl_photo_album.album_title as album_name');
 
+    $this->db->join('tbl_photo_album', 'tbl_photo_album.id  = tbl_photo_gallery.photo_album_id', 'left');
     $this->db->limit($limit, $start);
+    $this->db->Where('tbl_photo_gallery.insert_by', '5');
     $this->db->order_by('id', 'desc');
     $results = $this->db->get('tbl_photo_gallery')->result();
+
+    // $data['photo_gallery_list'] = $this->db->where('insert_by', '5')->order_by('id', 'desc')->get('tbl_photo_album')->result();
 
     return $results;
   }

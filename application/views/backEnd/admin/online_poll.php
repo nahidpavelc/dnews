@@ -36,7 +36,7 @@
                                             <div class="form-group">
                                                 <div class="col-sm-12">
                                                     <label for="title_one"><?php echo $this->lang->line("poll_title"); ?> *</label>
-                                                    <input type="text" name="poll_title" value="<?php echo $online_poll_info->poll_title;?>" class="form-control inner_shadow_primary" placeholder="<?php echo $this->lang->line('poll_title')?>">
+                                                    <input type="text" name="poll_title" value="<?php echo $online_poll_info->poll_title;?>" class="form-control inner_shadow_primary" placeholder="<?php echo $this->lang->line('poll_title')?>" required="">
                                                 </div>
                                             </div>
                                         </div>

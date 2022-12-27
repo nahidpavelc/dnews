@@ -267,7 +267,7 @@ class User extends CI_Controller
           redirect('user/photo_album', 'refresh');
         }
       }
-    } else if ($param1 == 'edit' && $param2 > 0) {
+    } else if ($param1   == 'edit'   && $param2 > 0) {
       if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $update_photo_album['album_title']      = $this->input->post('album_title', true);
         $update_photo_album['priority']         = $this->input->post('priority', true);
@@ -292,7 +292,7 @@ class User extends CI_Controller
         $this->session->set_flashdata('message', "Erong Attempt!");
         redirect('user/photo-album', 'refresh');
       }
-    } elseif ($param1 == 'delete' && $param2 > 0) {
+    } elseif ($param1   == 'delete' && $param2 > 0) {
 
       if ($this->UserModel->delete_photo_album($param2)) {
         $this->session->set_flashdata('message', "Data Deleted Successfully.");
@@ -305,7 +305,7 @@ class User extends CI_Controller
     $data['title']      = 'Photo Album';
     $data['activeMenu'] = 'photo_album';
     $data['page']       = 'backEnd/user/photo_album';
-    $data['photo_album_list'] = $this->db->order_by('priority', 'desc')->get('tbl_photo_album')->result();
+    $data['photo_album_list'] = $this->db->Where('insert_by', '5')->order_by('priority', 'desc')->get('tbl_photo_album')->result();
 
     $this->load->view('backEnd/master_page', $data);
   }
@@ -357,7 +357,7 @@ class User extends CI_Controller
         }
       }
 
-      $data['photo_album_list']  = $this->db->order_by('id', 'desc')->get('tbl_photo_album')->result();
+      $data['photo_album_list']  = $this->db->where('insert_by', '5')->order_by('id', 'desc')->get('tbl_photo_album')->result();
 
       $data['title']         = 'Photo Gallery Add';
       $data['page']          = 'backEnd/user/photo_gallery_add';
@@ -423,7 +423,7 @@ class User extends CI_Controller
 
       $config = array();
       $config["base_url"] = base_url("user/photo-gallery/list");
-      $config["total_rows"] = $this->db->get(' tbl_photo_gallery')->num_rows();
+      $config["total_rows"] = $this->db->get('tbl_photo_gallery')->num_rows();
       $config["per_page"] = 10;
       $config["uri_segment"] = 4;
 
@@ -458,12 +458,15 @@ class User extends CI_Controller
       $page = ($this->uri->segment(4)) ? $this->uri->segment(4) : 0;
 
       $data["links"]      = $this->pagination->create_links();
+
       $data['photo_gallery_list'] = $this->UserModel->get_photo_gallery_list($config["per_page"], $page);
+
+      
+
       $data['new_serial'] = $page;
       $data['title']      = 'Photo Gallery List';
       $data['page']       = 'backEnd/user/photo_gallery_list';
       $data['activeMenu'] = 'photo_gallery_list';
-
     } elseif ($param1 == 'delete' && $param2 > 0) {
 
       if ($this->USerModel->photo_gallery_delete($param2)) {

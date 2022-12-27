@@ -28,9 +28,9 @@
                     <div class="col-sm-12">
                       <label><?php echo $this->lang->line('photo_album_id'); ?> *</label>
                       <select name="photo_album_id" id="photo_album_id" class="form-control select2">
-                        <option value="0">Select a Photo Album</option>
+                        <option value="0"> Select a Photo Album </option>
                         <?php foreach ($photo_album_list as $key => $value) { ?>
-                          <option value="<?php echo $value->id; ?>"><?php echo $value->album_title; ?></option>
+                          <option value="<?php echo $value->id; ?>"> <?php echo $value->album_title; ?> </option>
                         <?php } ?>
                       </select>
                     </div>

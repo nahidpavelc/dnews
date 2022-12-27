@@ -1,6 +1,6 @@
 <?php
 
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
 $lang['main_navigation'] = 'MAIN NAVIGATION';
 
@@ -173,18 +173,21 @@ $lang['video_album_gallery']   = "Video Album & Gallery";
 
 
 //Photo Gallery
-$lang['photo_gallery']  = 'Photo Gallery';
-$lang['add_photo_gallery']  = 'Add Photo Gallery';
-$lang['photo_gallery_list']  = 'Photo Gallery list';
-$lang['photo_gallery_add']  = 'Photo Gallery Add';
-$lang['photo_album_id']  = 'Photo Album';
-$lang['photo_file']  = 'Photo';
-$lang['photo_album_name']  = 'Photo Album';
-$lang['photo_gallery_list']  = 'Photo Gallery list';
-$lang['title']  = 'Title';
-$lang['photo_gallery_edit']  = 'Photo Gallery Edit';
-// journal part
+$lang['photo_gallery']            = 'Photo Gallery';
+$lang['add_photo_gallery']        = 'Add Photo Gallery';
+$lang['photo_gallery_list']       = 'Photo Gallery list';
+$lang['photo_gallery_add']        = 'Photo Gallery Add';
+$lang['photo_album_id']           = 'Photo Album';
+$lang['photo_file']               = 'Photo';
+$lang['photo_album_name']         = 'Photo Album';
+$lang['photo_gallery_list']       = 'Photo Gallery list';
+$lang['title']                    = 'Title';
+$lang['photo_gallery_edit']       = 'Photo Gallery Edit';
 
+// User Photo Gallery 
+$lang['insert_by']                = 'Insert By';
+
+// journal part
 $lang['manage_journal']                = 'Manage Journal';
 $lang['add_journal']                   = 'Add Journal';
 $lang['journal_list']                  = 'Journal List';
@@ -213,7 +216,7 @@ $lang['news_title']  = 'News Title';
 //News Videos
 $lang['youtube_video_link']  = "Youtube Video link";
 $lang['facebook_video_link']  = 'Facebook Video link';
-$lang['news_videos']  = 'News Videos'; 
+$lang['news_videos']  = 'News Videos';
 
 //News Category Set
 $lang['news_category']      = 'News Category';

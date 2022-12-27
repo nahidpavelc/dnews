@@ -25,6 +25,7 @@
                   <th style="width: 5%;"><?php echo $this->lang->line('sl'); ?></th>
                   <th style="width: 10%;"><?php echo $this->lang->line('photo_album_name'); ?></th>
                   <th style="width: 10%;"><?php echo $this->lang->line('title'); ?></th>
+                  <th style="width: 10%;"><?php echo $this->lang->line('insert_by'); ?></th>
                   <th style="width: 10%;"><?php echo $this->lang->line('photo_file'); ?></th>
                   <th style="width: 10%;"><?php echo $this->lang->line('action'); ?></th>
 
@@ -40,6 +41,7 @@
                     <td><?php echo ++$new_serial; ?></td>
                     <td><?php echo $value->album_name; ?></td>
                     <td><?php echo $value->title; ?></td>
+                    <td><?php echo $value->insert_by; ?></td>
                     <td>
                       <img class="img" src="<?php if (file_exists($value->photo_file)) echo base_url($value->photo_file);
                                             else echo base_url("assets/gallery.png") ?>" alt="Photo" width="50px" height="50px">
