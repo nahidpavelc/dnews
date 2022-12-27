@@ -289,7 +289,7 @@ class User extends CI_Controller
         $data['photo_album_info'] = $data['photo_album_info']->row();
         $data['photo_album_id'] = $param2;
       } else {
-        $this->session->set_flashdata('message', "Erong Attempt!");
+        $this->session->set_flashdata('message', "Wrong Attempt!");
         redirect('user/photo-album', 'refresh');
       }
     } elseif ($param1   == 'delete' && $param2 > 0) {
@@ -302,6 +302,7 @@ class User extends CI_Controller
         redirect('user/photo_album', 'refresh');
       }
     }
+
     $data['title']      = 'Photo Album';
     $data['activeMenu'] = 'photo_album';
     $data['page']       = 'backEnd/user/photo_album';
@@ -461,7 +462,7 @@ class User extends CI_Controller
 
       $data['photo_gallery_list'] = $this->UserModel->get_photo_gallery_list($config["per_page"], $page);
 
-      
+
 
       $data['new_serial'] = $page;
       $data['title']      = 'Photo Gallery List';
@@ -469,7 +470,7 @@ class User extends CI_Controller
       $data['activeMenu'] = 'photo_gallery_list';
     } elseif ($param1 == 'delete' && $param2 > 0) {
 
-      if ($this->USerModel->photo_gallery_delete($param2)) {
+      if ($this->UserModel->photo_gallery_delete($param2)) {
 
         $this->session->set_flashdata('message', 'Data Deleted Successfully!');
         redirect('user/photo-gallery/list', 'refresh');

@@ -152,27 +152,11 @@ class UserModel extends CI_Model
     return $this->db->where('id', $user_id)->update('user', $update_data);
   }
 
-  //Photo Album Delete
-  public function photo_album_delete($param2)
-  {
-    return $this->db->where('id', $param2)->delete('tbl_photo_album');
-  }
 
-  //Photo Album list
-  public function get_photo_album_list($limit = 10, $start = 0)
-  {
-    $results = array();
 
-    $this->db->select('tbl_photo_album.id,tbl_photo_album.album_title,tbl_photo_album.priority');
-    $this->db->limit($limit, $start);
-    $this->db->order_by('priority', 'desc');
-    $results = $this->db->get('tbl_photo_album')->result();
 
-    return $results;
-  }
 
   //Photo Gallery Update
-
   public function photo_gallery_update($update_photo_gallery, $param2)
   {
     if (isset($update_photo_gallery['photo_file']) && file_exists($update_photo_gallery['photo_file'])) {
@@ -208,8 +192,6 @@ class UserModel extends CI_Model
 
     return $results;
   }
-
-
   //Photo Gallery Delete
   public function photo_gallery_delete($param2)
   {
@@ -232,12 +214,24 @@ class UserModel extends CI_Model
   {
     return $this->db->where('id', $param2)->update('tbl_photo_album', $update_photo_album);
   }
+  //Photo Album list
+  public function get_photo_album_list($limit = 10, $start = 0)
+  {
+    $results = array();
 
+    $this->db->select('tbl_photo_album.id,tbl_photo_album.album_title,tbl_photo_album.priority');
+    $this->db->limit($limit, $start);
+    $this->db->order_by('priority', 'desc');
+    $results = $this->db->get('tbl_photo_album')->result();
+
+    return $results;
+  }
   //Photo album Delete
   public function delete_photo_album($param2)
   {
     return $this->db->where('id', $param2)->delete('tbl_photo_album');
   }
+
 }
 
 ?>
