@@ -258,7 +258,19 @@ class User extends CI_Controller
         $insert_photo_album['insert_by']        = $_SESSION['userid'];
         $insert_photo_album['insert_time']      = date('Y-m-d H:i:s');
 
-        $photo_album_add = $this->db->insert('')
+        $photo_album_add = $this->db->insert('tbl_photo_album', $insert_photo_album);
+        if($photo_album_add) {
+          $this->session->set_flashdata('message', "Data Added Successfully.");
+          redirect('user/photo_album', 'refresh');
+        }
+        else{
+          $this-> session->set_flashdata('message', "Data Add Failed.");
+          redirect('user/photo_album', 'refresh');
+        }
+      }
+    } else if ($param1 == 'edit' && $param2 > 0){
+      if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
       }
     }
   }

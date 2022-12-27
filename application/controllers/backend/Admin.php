@@ -1016,6 +1016,7 @@ class Admin extends CI_Controller
     $this->load->view('backEnd/master_page', $data);
   }
 
+  // Mail 
   public function mail_setting()
   {
 
