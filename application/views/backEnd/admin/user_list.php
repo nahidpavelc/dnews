@@ -5,7 +5,7 @@
     border-radius: 4px;
     padding: 3px;
     width: 70px;
-    height: 60px;
+    height: 70px;
 }
 </style>
 <section class="content">

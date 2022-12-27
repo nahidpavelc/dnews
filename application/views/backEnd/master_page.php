@@ -220,6 +220,36 @@
             </a>
           </li>
 
+          <!------- user Photo Album Photo gallery ------>
+          <li class="treeview <?php if ($activeMenu === "photo_album" || $activeMenu === "photo_gallery_add" || $activeMenu === "photo_gallery_list" || $activeMenu === "photo_gallery_edit") echo "active"; ?> ">
+            <a href="#">
+              <i class="fa fa-picture-o"></i> <span> <?php echo $this->lang->line("photo_album_gallery"); ?> </span>
+              <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+              </span>
+            </a>
+            <ul class="treeview-menu">
+              <li class="treeview <?php if ($activeMenu === "photo_album") echo "active"; ?> ">
+                <a href="<?php echo base_url('user/photo-album'); ?>">
+                  <i class="fa fa-check"></i> <span> <?php echo $this->lang->line("photo_album"); ?> </span>
+                </a>
+              </li>
+
+              <li class="treeview <?php if ($activeMenu === "photo_gallery_add" || $activeMenu === "photo_gallery_list" || $activeMenu === "photo_gallery_edit") echo "active"; ?> ">
+                <a href="#">
+                  <i class="fa fa-check"></i> <span> <?php echo $this->lang->line("photo_gallery"); ?> </span>
+                  <span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i>
+                  </span>
+                </a>
+                <ul class="treeview-menu">
+                  <li class=" <?php if ($activeMenu === "photo_gallery_add") echo "active"; ?> "><a href="<?php echo base_url('user/photo_gallery/add'); ?>"><i class="fa fa-circle-o"></i> <?php echo $this->lang->line("add_photo_gallery"); ?> </a></li>
+                  <li class=" <?php if ($activeMenu === "photo_gallery_list") echo "active"; ?> "><a href="<?php echo base_url('user/photo_gallery/list'); ?>"><i class="fa fa-circle-o"></i> <?php echo $this->lang->line("photo_gallery_list"); ?> </a></li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+
           <?php if ($_SESSION['userType'] === 'admin') : ?>
 
             <li class="treeview <?php if ($activeMenu === "user_list" || $activeMenu === "add_user" || $activeMenu === "user_edit") echo "active"; ?> ">
@@ -438,8 +468,7 @@
               </a>
             </li>
 
-          <?php endif;
-          ?>
+          <?php endif; ?>
         </ul>
       </section>
       <!-- /.sidebar -->

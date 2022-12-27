@@ -146,15 +146,16 @@
   </div>
 </section>
 
+//Flat red color scheme for iCheck
 <script type="text/javascript">
-  //Flat red color scheme for iCheck
   $('input[type="checkbox"].flat-red, input[type="radio"].flat-red').iCheck({
     checkboxClass: 'icheckbox_flat-green',
     radioClass: 'iradio_flat-green'
   });
 </script>
+
+// profile picture change
 <script>
-  // profile picture change
   function readpicture(input) {
     if (input.files && input.files[0]) {
       var reader = new FileReader();
@@ -170,11 +171,13 @@
     }
   }
 </script>
+
+// this is for present address change only
 <script>
   $(document).ready(function() {
 
-    // this is for presend address change only
     $('#division').change(function() {
+
       $('#zilla').find('option').remove().end().append("<option value=''>Select Division First</option>");
       $('#upozilla').find('option').remove().end().append("<option value=''>Select District First</option>");
       loadZilla($(this).find(':selected').val());
