@@ -818,11 +818,9 @@ class Admin extends CI_Controller
     } elseif ($param1 == 'delete' && $param2 > 0) {
 
       if ($this->AdminModel->delete_photo_album($param2)) {
-
         $this->session->set_flashdata('message', "Data Deleted Successfully.");
         redirect('admin/photo-album', 'refresh');
       } else {
-
         $this->session->set_flashdata('message', "Data Delete Failed.");
         redirect('admin/photo-album', 'refresh');
       }

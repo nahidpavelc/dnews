@@ -259,20 +259,229 @@ class User extends CI_Controller
         $insert_photo_album['insert_time']      = date('Y-m-d H:i:s');
 
         $photo_album_add = $this->db->insert('tbl_photo_album', $insert_photo_album);
-        if($photo_album_add) {
+        if ($photo_album_add) {
           $this->session->set_flashdata('message', "Data Added Successfully.");
           redirect('user/photo_album', 'refresh');
-        }
-        else{
-          $this-> session->set_flashdata('message', "Data Add Failed.");
+        } else {
+          $this->session->set_flashdata('message', "Data Add Failed.");
           redirect('user/photo_album', 'refresh');
         }
       }
-    } else if ($param1 == 'edit' && $param2 > 0){
+    } else if ($param1 == 'edit' && $param2 > 0) {
       if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        $update_photo_album['album_title']      = $this->input->post('album_title', true);
+        $update_photo_album['priority']         = $this->input->post('priority', true);
+        $update_photo_album['inset_by']         = $_SESSION['userid'];
+        $update_photo_album['inset_time']       = date('y-m-d H:i:s');
 
+        if ($this->UserModel->photo_album_update($update_photo_album, $param2)) {
+          $this->session->set_flashdata('message', "Data Update Successfully");
+          redirect('admin/admin-album', 'refresh');
+        } else {
+          $this->session->set_flashdata('message', "Data Update Failed");
+          redirect('admin/photo_album', 'refresh');
+        }
+      }
+
+      $data['photo_album_info'] = $this->db->get_where('tbl_photo_album', array('id' => $param2));
+
+      if ($data['photo_album_info']->num_rows() > 0) {
+        $data['photo_album_info'] = $data['photo_album_info']->row();
+        $data['photo_album_id'] = $param2;
+      } else {
+        $this->session->set_flashdata('message', "Erong Attempt!");
+        redirect('user/photo-album', 'refresh');
+      }
+    } elseif ($param1 == 'delete' && $param2 > 0) {
+
+      if ($this->UserModel->delete_photo_album($param2)) {
+        $this->session->set_flashdata('message', "Data Deleted Successfully.");
+        redirect('user/photo_album', 'refresh');
+      } else {
+        $this->session->set_flashdata('message', "Data Delete Failed.");
+        redirect('user/photo_album', 'refresh');
       }
     }
-  }
+    $data['title']      = 'Photo Album';
+    $data['activeMenu'] = 'photo_album';
+    $data['page']       = 'backEnd/user/photo_album';
+    $data['photo_album_list'] = $this->db->order_by('priority', 'desc')->get('tbl_photo_album')->result();
 
+    $this->load->view('backEnd/master_page', $data);
+  }
+  //Photo Gallery
+  public function photo_gallery($param1 = 'add', $param2 = '', $param3 = '')
+  {
+
+    if ($param1 == 'add') {
+
+      if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+        $insert_photo_gallery['photo_album_id']   = $this->input->post('photo_album_id', true);
+        $insert_photo_gallery['title']            = $this->input->post('title', true);
+        $insert_photo_gallery['insert_by']        = $_SESSION['userid'];
+        $insert_photo_gallery['insert_time']      = date('Y-m-d H:i:s');
+
+        if (!empty($_FILES['photo_file']['name'])) {
+
+          $path_parts                 = pathinfo($_FILES["photo_file"]['name']);
+          $newfile_name               = preg_replace('/[^A-Za-z]/', "", $path_parts['filename']);
+          $dir                        = date("YmdHis", time());
+          $config_c['file_name']      = $newfile_name . '_' . $dir;
+          $config_c['remove_spaces']  = TRUE;
+          $config_c['upload_path']    = 'assets/photoGallery/';
+          $config_c['max_size']       = '20000'; //  less than 20 MB
+          $config_c['allowed_types']  = 'jpg|png|jpeg|jpg|JPG|JPG|PNG|JPEG';
+
+          $this->load->library('upload', $config_c);
+          $this->upload->initialize($config_c);
+          if (!$this->upload->do_upload('photo_file')) {
+          } else {
+
+            $upload_c = $this->upload->data();
+            $insert_photo_gallery['photo_file'] = $config_c['upload_path'] . $upload_c['file_name'];
+            $this->image_size_fix($insert_photo_gallery['photo_file'], 400, 400);
+          }
+        }
+
+        $add_photo_gallery = $this->db->insert('tbl_photo_gallery', $insert_photo_gallery);
+
+        if ($add_photo_gallery) {
+
+          $this->session->set_flashdata('message', 'Data Created Successfully!');
+          redirect('user/photo-gallery/list', 'refresh');
+        } else {
+
+          $this->session->set_flashdata('message', 'Data Created Failed!');
+          redirect('user/photo-gallery', 'refresh');
+        }
+      }
+
+      $data['photo_album_list']  = $this->db->order_by('id', 'desc')->get('tbl_photo_album')->result();
+
+      $data['title']         = 'Photo Gallery Add';
+      $data['page']          = 'backEnd/user/photo_gallery_add';
+      $data['activeMenu']    = 'photo_gallery_add';
+    } elseif ($param1 == 'edit' && (int) $param2 > 0) {
+
+      $check_table_row = $this->db->where('id', $param2)->get('tbl_photo_gallery');
+
+      if ($check_table_row->num_rows() > 0) {
+
+        $data['photo_gallery_info'] = $check_table_row->row();
+
+
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+          $update_photo_gallery['photo_album_id']    = $this->input->post('photo_album_id', true);
+          $update_photo_gallery['title']            = $this->input->post('title', true);
+
+          if (!empty($_FILES['photo_file']['name'])) {
+
+            $path_parts                 = pathinfo($_FILES["photo_file"]['name']);
+            $newfile_name               = preg_replace('/[^A-Za-z]/', "", $path_parts['filename']);
+            $dir                        = date("YmdHis", time());
+            $config_c['file_name']      = $newfile_name . '_' . $dir;
+            $config_c['remove_spaces']  = TRUE;
+            $config_c['upload_path']    = 'assets/photoGallery/';
+            $config_c['max_size']       = '20000'; //  less than 20 MB
+            $config_c['allowed_types']  = 'jpg|png|jpeg|jpg|JPG|JPG|PNG|JPEG';
+
+            $this->load->library('upload', $config_c);
+            $this->upload->initialize($config_c);
+            if (!$this->upload->do_upload('photo_file')) {
+            } else {
+
+              $upload_c = $this->upload->data();
+              $update_photo_gallery['photo_file'] = $config_c['upload_path'] . $upload_c['file_name'];
+              $this->image_size_fix($update_photo_gallery['photo_file'], 400, 400);
+            }
+          }
+
+
+          if ($this->AdminModel->photo_gallery_update($update_photo_gallery, $param2)) {
+
+            $this->session->set_flashdata('message', 'Data Updated Successfully!');
+            redirect('user/photo-gallery/list', 'refresh');
+          } else {
+
+            $this->session->set_flashdata('message', 'Data Update Failed!');
+            redirect('user/photo-gallery/list', 'refresh');
+          }
+
+          $this->session->set_flashdata('message', 'Data Updated Successfully');
+          redirect('user/photo-gallery/list', 'refresh');
+        }
+      }
+
+      $data['photo_album_list']  = $this->db->order_by('id', 'desc')->get('tbl_photo_album')->result();
+
+      $data['title']         = 'Photo Gallery Update';
+      $data['page']          = 'backEnd/user/photo_gallery_edit';
+      $data['activeMenu']    = 'photo_gallery_edit';
+    } elseif ($param1 == 'list') {
+
+      $config = array();
+      $config["base_url"] = base_url("user/photo-gallery/list");
+      $config["total_rows"] = $this->db->get(' tbl_photo_gallery')->num_rows();
+      $config["per_page"] = 10;
+      $config["uri_segment"] = 4;
+
+      //custom
+      $config['full_tag_open'] = '<ul class="pagination">';
+      $config['full_tag_close'] = '</ul>';
+
+      $config['first_link'] = "First";
+      $config['last_link'] = "Last";
+
+      $config['first_tag_open'] = '<li>';
+      $config['first_tag_close'] = '</li>';
+
+      $config['prev_link'] = '«';
+      $config['prev_tag_open'] = '<li class="prev">';
+      $config['prev_tag_close'] = '</li>';
+
+      $config['next_link'] = '»';
+      $config['next_tag_open'] = '<li>';
+      $config['next_tag_close'] = '</li>';
+
+      $config['last_tag_open'] = '<li>';
+      $config['last_tag_close'] = '</li>';
+
+      $config['cur_tag_open'] = '<li class="active"><a href="#">';
+      $config['cur_tag_close'] = '</a></li>';
+      $config['num_tag_open'] = '<li>';
+      $config['num_tag_close'] = '</li>';
+
+      $this->pagination->initialize($config);
+
+      $page = ($this->uri->segment(4)) ? $this->uri->segment(4) : 0;
+
+      $data["links"]      = $this->pagination->create_links();
+      $data['photo_gallery_list'] = $this->UserModel->get_photo_gallery_list($config["per_page"], $page);
+      $data['new_serial'] = $page;
+      $data['title']      = 'Photo Gallery List';
+      $data['page']       = 'backEnd/user/photo_gallery_list';
+      $data['activeMenu'] = 'photo_gallery_list';
+
+    } elseif ($param1 == 'delete' && $param2 > 0) {
+
+      if ($this->USerModel->photo_gallery_delete($param2)) {
+
+        $this->session->set_flashdata('message', 'Data Deleted Successfully!');
+        redirect('user/photo-gallery/list', 'refresh');
+      } else {
+
+        $this->session->set_flashdata('message', 'Data Deleted Failed!');
+        redirect('user/photo-gallery/list', 'refresh');
+      }
+    } else {
+
+      $this->session->set_flashdata('message', 'Wrong Attempt!');
+      redirect('user/photo-gallery/list', 'refresh');
+    }
+
+
+    $this->load->view('backEnd/master_page', $data);
+  }
 }
